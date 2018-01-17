@@ -1,4 +1,4 @@
-git push -u origin master
+# Pucsd application system
 
 Project:
   Pucsd application system
