@@ -1,0 +1,36 @@
+<!DOCTYPE html>            
+<html>            
+<head>
+<link rel="stylesheet" href="./code.css"/>
+<ul>
+<li><a  class="active"  href="./st_loh.py">HOME</a></li>
+<li style="float:right"><a href="./logout.py">LOGOUT</a></li>
+</ul>
+<body>
+<script src="./angular.min.js"></script>
+<div class="inner">           
+ <form method="post" action=new_application_print.py/for_feesstructure>
+   <h1 allign="center"> Bank Detail</h1></allign>
+    <label> Bank Name:</label>
+     <input type=hidden name="edit" value=%s>
+    <input type="text" placeholder="Bank_name" required name="bname" style="width:400px;height:20px;" maxlength="200" ><br>
+    <label> Enter Bank Address:</label>
+    <input type="text"  placeholder="Bank_address" required=""  style="width:400px;height:20px;" name="addr" ng-model="purp" maxlength="200"><br>
+    <input type="submit"  value="Submit">
+ </form> 
+</div>
+<div class="inner">
+ <form method="post" action="./st_loh.py">
+   <input type="submit"  value="Back">
+ </form>
+</div>
+</body>
+</head>
+</html>
+
+
+
+
+
+
+

@@ -1,0 +1,38 @@
+<!DOCTYPE html>            
+</form></html><html>            
+<head> <!-- www.techstrikers.com -->             
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    
+ <link rel="stylesheet" href="./code.css"/>
+<body bgcolor=blue onload="LoadOnce()">
+ <form method="post" action="new_application_print.py" ng-app="myapp" ng-controller="appController" name="myForm">
+<script src="./angular.min.js"></script>           
+ <script>            
+var app = angular.module('myapp', []);            
+    app.controller("appController", function ($scope,$http) { 
+	var url = "./json.txt";
+	$scope.names = ["New Application", "Editing", "Open"];
+        $scope.status=["Certificate","Bonafide Certificate","Fee Structure Certificate","International Bonafide Certificate","No Dues Certificate"]
+        $scope.appli=["Bonafide Certificate","Fees Structure Certificate","No Dues Certificate"]
+        $scope.appli11=["International Bonafide Certificate","Fees Structure Certificate","No Dues Certificate"]
+function LoadOnce() 
+	{ 
+	window.location.reload(); 
+	} 
+	$http.get(url).then( function(response) {
+               $scope.chiarperson= response.data;
+   });
+});          
+</script>
+     
+     <div ng-if="selectedop=='New Application'" >
+         <input type="submit" value="ok" onclick="new_application_print"><br><br>
+         </div>
+     <label>Status of previous application:</label>
+      <select ng-model="statuspa" ng-options="op for op in status">
+       <option value="" disabled selected>Select Application</option></select><br></br>
+       <label >Search as:</label>
+     <input ng-model="fname" "><br><br>
+    
+       
+

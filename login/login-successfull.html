@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+		<head>
+				<link rel="stylesheet" type="text/css" href="w3.css">
+				<link rel="stylesheet" type="text/css" href="theme.css">
+				<script type="text/javascript" src="jquery.min.js"></script>
+				<!--<script type="text/javascript" src="sha256.js"></script>-->
+				<script type="text/javascript" src="index.js"></script>
+				<script type ="text/javascript">
+						window.onload = function(){
+								document.getElementById('logged-in-as').innerHTML = getCookie("roll_no");
+						};
+				</script>
+
+		</head>
+		<body>
+		<ul>
+		<li><a id="home-button" class="active" href="#home">Home</a></li>
+		<li><a href="#news">News</a></li>
+		<li><a href="#contact">Contact</a></li>
+		<li style="float:right"><a href="http://cs.unipune.ac.in/pucsd.php?path=http://cs.unipune.ac.in/admin/obx/cell/sysadmin/fac_cont.php">About</a></li>
+		</ul>
+				<h1>login successful</h1>
+				<h2>you are logged in as </h2>
+				<div id="logged-in-as"></div>
+				<div>
+						<h3>actual site start here</h3>
+				</div> 
+		</body>
+</html>

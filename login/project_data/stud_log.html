@@ -1,0 +1,53 @@
+<!DOCTYPE html>            
+<html>            
+		<head>
+
+				<link rel="stylesheet" href="./code.css"/>
+				<body onload="test()">
+						<form hidden method="post" action="student.py" ng-app="myapp" ng-controller="appCnt" name="myForm">
+								<script src="./angular.min.js"></script>           
+								<script>            
+var app = angular.module('myapp', []);            
+app.controller("appCnt", function ($scope,$http) { 
+		var url = "./json.txt";
+		$scope.names = ["New Application", "Editing", "Open"];
+		$scope.status=["Bonafied","Fees Structure","No Dues"];
+		$scope.roll_no = getCookie("roll_no");
+				$http.get(url).then( function(response) {
+						$scope.chiarperson= response.data;
+				});
+
+function getCookie(cname) {
+		var name = cname + "=";
+		var ca = document.cookie.split(';');
+		for(var i = 0; i < ca.length; i++) {
+				var c = ca[i];
+				while (c.charAt(0) == ' ') {
+						c = c.substring(1);
+				}
+				if (c.indexOf(name) == 0) {
+						return c.substring(name.length, c.length);
+				}
+		}
+		return "";
+}
+});     
+
+
+
+								</script>
+
+								logged in
+								<input id="continue-button"  type="hidden" name="number" ng-model="number" value={{roll_no}} required>
+								<span hidden style="color:red" ng-show="myForm.number.$dirty && myForm.number.$invalid">
+										<span ng-show="myForm.number.$error.required">number is required.</span>
+										<span ng-show="myForm.number.$error.number">Invalid number address.</span>
+								</span>
+								<input hidden type="submit" value="click here to continue"
+			   ng-disabled="myForm.user.$dirty && myForm.user.$invalid ||  
+			   myForm.number.$dirty && myForm.number.$invalid" ng-click="count1 = count1 + 1" ng-init="count1=0" >
+			   <input type="reset" value="logout" ng-init="count1=0,number=-1">
+						</form>
+								<script async src="script.js"></script>
+				</body>
+</html>

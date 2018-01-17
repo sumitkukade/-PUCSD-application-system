@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script>
+        $(document).ready(function () {
+            var data = ["1","2"];
+
+            for(var i=0;i<data.length;i++)
+                    {
+                        var opt = new Option(data[i]);
+                        $("#op1").append(opt);
+                    }
+        });
+    </script>
+</head>
+<body>
+   
+            <div>
+            </div>
+            <div>
+                <select id="op1">
+                 <option selected="selected">Select</option>
+                </select>
+            </div>
+       
+</body>
+</html>

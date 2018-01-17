@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+		<head>
+				<link rel="stylesheet" type="text/css" href="w3.css">
+				<link rel="stylesheet" type="text/css" href="theme.css">
+				<script type="text/javascript" src="jquery.min.js"></script>
+				<!--<script type="text/javascript" src="sha256.js"></script>-->
+				<script type="text/javascript" src="index.js"></script>
+				<script type ="text/javascript">
+						window.onload = function(){
+								document.getElementById('logged-in-as').innerHTML = getCookie("roll_no");
+						};
+				</script>
+
+		</head>
+		<body>
+		<ul>
+		<li><a id="home-button" class="active" href="#home">Home</a></li>
+		<li><a href="#news">News</a></li>
+		<li><a href="#contact">Contact</a></li>
+		<li style="float:right"><a id="home-button" href="../index.html">Logout</a></li>
+		</ul>
+				<h1>Information Submitted. <div id="logged-in-as"></div></h1>
+				<h2>Thank You &#x1f44d;	</h2>
+				<div>
+						<h3></h3>
+				</div> 
+		</body>
+</html>

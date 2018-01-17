@@ -1,0 +1,26 @@
+<!DOCTYPE html>            
+<html>            
+<head>
+ <link rel="stylesheet" href="./code.css"/>
+<body >
+ <div ng-app="" >
+
+<script src="./angular.min.js">
+
+</script>
+<label>Login</label>
+<input ng-model="login" style="width:80px;" Required placeholder={{lg}}><br><br>
+{{login}}</input>
+<input type="radio" ng-model="lg" value="student">student<br>
+<input type="radio" ng-model="lg" value="staff">staff
+<div ng-if="'staff' == lg">
+<form method="post" action="staff_login.py">
+ <input type="submit" value=login>
+</form>    
+</div>
+<div ng-if="'student' == lg">
+<form method="post" action="student_login.py">
+ <input type="submit" value=login>
+</form>    
+</div>
+

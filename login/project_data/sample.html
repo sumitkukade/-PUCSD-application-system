@@ -1,0 +1,68 @@
+<!DOCTYPE html>            
+<html>            
+<head>
+<link rel="stylesheet" href="./code.css"/>
+
+<body onload="LoadOnce()" >
+ <form ng-app="myapp" ng-controller="appController" name="myForm" " >
+<script type="text/javascript" src="./index.js"></script>
+<script src="./angular.min.js">
+
+
+</script>
+<script src="app.js"></script>
+ <script>            
+var app = angular.module('myapp', []);            
+    app.controller("appController", function ($scope,$http) { 
+	var url = "./json.txt";
+	$http.get(url).then( function(response) {
+               $scope.chiarperson= response.data;
+});
+function LoadOnce() 
+	{ 
+	window.location.reload(); 
+	} 
+$scope.counter= 0;
+$scope.items = [];
+$scope.chk=''
+$scope.stats6='Request Finished Successfully';
+$scope.stats7='Application Rejected By Office';
+$scope.stats10='Form Printed';
+$scope.stats8='Finish'
+  $scope.count = function(){
+    $scope.counter=$scope.counter+1;
+  };	
+$scope.addToCart = function(item)
+    {
+      $scope.items.push(item);
+    }
+
+$scope.removeToCart = function(item)
+    {
+      $scope.items.pop(item);
+    }
+
+
+$scope.change = function()
+    {
+      $scope.chk="Request Arrived In Office";
+    }
+
+$scope.change1 = function()
+    {
+      $scope.chk="";
+    }
+
+$scope.count2 = function(){
+    $scope.counter=$scope.counter-1;
+  };
+
+
+ 
+
+
+  });     
+</script>
+
+<label>Search As:
+<input ng-model="fname" >

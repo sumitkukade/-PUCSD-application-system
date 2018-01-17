@@ -1,0 +1,190 @@
+<!--DOCTYPE html-->
+<html lang="en-US" ng-app="">
+		<title>student change information</title>
+		<head>
+				<meta charset="utf-8">
+				<!--<link rel="stylesheet" type="text/css" href="w3.css">
+				<link rel="stylesheet" type="text/css" href="theme.css">-->
+				<script src="angular.min.js"></script>
+				<script type="text/javascript" src="js/jquery.min.js"></script>
+				<script type="text/javascript" src="index.js"></script>
+				<!--<script src="js/student-information.js"></script>-->
+				</script>
+				<style>
+						input.ng-invalid.ng-dirty{border: 1px solid red;}
+						.hidden
+						{
+							display: none;
+						}
+				</style>
+		</head>
+		<body onload="get_student_filled_details()">
+		<!--navigation bar-->
+		<ul>
+		<li><a id="home-button" class="active" href="#home">Home</a></li>
+		<li><a href="#news">News</a></li>
+		<li><a href="#contact">Contact</a></li>
+		<li style="float:right"><a href="http://cs.unipune.ac.in/pucsd.php?path=http://cs.unipune.ac.in/admin/obx/cell/sysadmin/fac_cont.php">About</a></li>
+		</ul>
+
+
+
+		<div id="outer-container" style="align: center;">
+		<!--<input class="button button5" id="home-button" type="submit" value="Home">-->	
+
+		<h1>Change Information</h1>
+		</div>
+		
+		<form name="frm" required>
+						
+
+						<div>
+						
+						<div>
+						Roll No:
+						<input id="rollno" type="text" name="rollno" maxlength="5"  ng-model="user.rollno" disabled>
+						</div>
+								<div>
+								<br>Full name:
+								<input id="fname" type="text" name="fname" ng-model="fname" required>
+								<span ng-show="frm.fname.$dirty && frm.fname.$error.required" style="color: red">required!</span>
+								<input id="mname" type="text" name="mname" ng-model="mname" placeholder="middle name">
+								<input id="lname" type="text" name="lname" ng-model="lname" placeholder="last name" required>
+								<span ng-show="frm.lname.$dirty && frm.lname.$error.required" style="color: red">required!</span>
+						</div>
+
+
+						<div>
+								<br>Gender:
+								<input id="male" type="radio" ng-model="gender" value="m">Male
+								<input id="female" type="radio" ng-model="gender" value="f">Female
+								<br><br>Birthday:
+								<input id="dob" type="date" name="bday" required>
+
+						</div>
+						
+						<div>
+								<br>
+								Mobile:
+								<input id="mob" type="text" name="mobile" ng-model="user.mobile" maxlength="10" required>
+								<span ng-show="frm.mobile.$dirty && frm.mobile.$error.required" style="color: red">required!</span>
+
+								Email:
+								<input id="email" type="email" name="email" ng-model="user.email" required>
+								<span ng-show="frm.email.$dirty && frm.email.$error.required" style="color: red">required!</span>
+								<span ng-show="frm.email.$dirty && frm.email.$error.email" style="color: red">invalid!</span>
+
+						</div>
+
+
+
+						<div>
+								<br>Course:
+								<input id="mca" type="radio" ng-model="courseId" value="mca">MCA
+								<input id="msc" type="radio" ng-model="courseId" value="msc">MSc
+
+								&emsp;&emsp;&emsp;Semister:
+								<!--<select id="semId">
+										<option value="1">sem 1</option>
+										<option value="2">sem 2</option>
+										<option value="3">sem 3</option>
+										<option value="4">sem 4</option>
+										<option value="5">sem 5 (MCA only)</option>
+										<option value="6">sem 6 (MCA only)</option>
+								</select>-->
+								<input id="semId" type="text">
+
+
+						</div>
+
+
+						<div>
+								<br>Do you have maharashtra domicile ?
+								<input id="domicileYes" type="radio" ng-model="domicile" value="1">Yes
+								<input id="domicileNo" type="radio" ng-model="domicile" value="0">No
+						</div>
+
+						<br>Category: <input id="category" type="text" required>
+
+						<br><br>full address:
+						<input type="text" maxlength="60" id="address-line-1" placeholder="Flat / House No. / Floor / Building" required></input>
+						<input type="text" maxlength="60" id="address-line-2" placeholder="Colony / Street / Locality" required></input>
+						<input type="text" maxlength="60" id="address-line-3" placeholder="Landmark" required></input>
+						<br><br>
+						country: 
+						<!--<select id="country">
+						<option selected="selected">Please select</option>
+                		</select>
+                		<br>-->
+                		<input id="country" type="text" name="">
+
+                		state:
+						<!--<select id="state">
+						<option selected="selected">Please select</option>
+                		</select>-->
+                		<input id="state" type="text" name="">
+
+                		
+                		<br>
+                		District / City:
+                		<!--<select id="city">
+                		<option selected="selected">Please select</option>
+                		</select>
+                		<br>-->
+                		<input id="city" type="text" name="">
+
+
+
+
+						<br><br>International Student?
+						<input id="intr" type="radio" name="intr" value="yes" ng-model="myVar">Yes 
+  						<input type="radio" name="intr" value="" ng-model="myVar"> No  
+						
+
+
+						<div ng-show="myVar">
+						<!-- for international student -->
+						<br>visa number:
+						<input id="international-visa" type="text">
+
+						&emsp;&emsp;Visa Type:
+						<input id="visaType" type="text">
+						<br><br>
+						Visa Issued Date:
+						<input id="visaIssueDate" type="date"> Visa Valid Upto: <input id="visaValidDate" type="date">
+
+						<br><br>Passport number:
+						<input id="passport-number" type="text">
+
+						<br><br>Passport Issued Date:
+						<input id="passportIssueDate" type="date"> Passport Valid Upto: <input id="passportValidDate" type="date">
+
+
+
+						<br><br>First Admission Date:<input id="international-admission-date" type="date">
+					<!--	<br><br>Current Backlog(if any):<input id="backlog" type="text">-->
+
+						<br><br>Nationality:<input id="nationality" type="text">
+
+
+						<br><br>Current Address:
+						<input type="text" maxlength="60" id="international-current-address-line-1" placeholder="Flat / House No. / Floor / Building"></input>
+						<input type="text" maxlength="60" id="international-current-address-line-2" placeholder="Colony / Street / Locality"></input>
+						<br><br>Landmark:
+						<input type="text" maxlength="60" id="international-current-address-line-3" value=""></input>
+						
+
+
+						</div>
+						
+						<br><input  class="button button5" id="change-button" type="submit" value="change">
+						<!--info form hidden div-->
+						</div>
+				</form>
+				
+
+				</div>
+		</body>
+
+				<h5 id="status-msg" style="color: red"></h5>
+</html>

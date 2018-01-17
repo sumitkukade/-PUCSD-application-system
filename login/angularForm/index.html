@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en-US" ng-app="">
+		<title>student details</title>
+		<head>
+				<meta charset="utf-8">
+				<script src="angular.min.js"></script>
+				<script type="text/javascript" src="js/jquery.min.js"></script>
+				<script src="js/student-information.js"></script>
+				<style>
+input.ng-invalid.ng-dirty{border: 1px solid red;}
+				</style>
+		</head>
+		<body>
+				<form name="frm" required>
+						<h1>Student Sign up</h1>
+						Roll No:
+						<input id="rollno" type="text" name="rollno" maxlength="5"  ng-model="user.rollno" required>
+
+
+
+						<br><br>PIN:
+						<input id="pin" type="text" ng-model="pin" maxlength="7" required>
+						<div id="validate-pin" ng-if="pin.length == 7">
+								<br><button id="validate-pin-button" type="button" onclick="validate_pin();">validaate</button>
+						</div>
+
+
+						<!-- hidden area -->
+						<div>
+								<br>
+								new password:
+								<input id="pwd" type="password" name="password" ng-model="user.password" minlength="5" required>
+								<span ng-show="frm.password.$dirty && frm.password.$error.required" style="color: red">required!</span>
+								<br><br>conform new password:
+								<input id="cpwd" type="password" name="conformpassword" ng-model="user.conformpassword" required>
+								<span ng-show="frm.conformpassword.$dirty && frm.conformpassword.$error.required" style="color: red">required!</span>
+						</div>
+						<div>
+								<br>Full name:
+								<input id="name" name="name" ng-model="name" required>
+								<span ng-show="frm.name.$dirty && frm.name.$error.required" style="color: red">required!</span>
+						</div>
+
+
+						<div>
+								<br>Gander:
+								<input id="male" type="radio" ng-model="gander" value="male">Male
+								<input id="female" type="radio" ng-model="gander" value="female">Female
+								<input id="other" type="radio" ng-model="gander" value="other">Other
+						</div>
+						Birthday:
+						  <input id="dob" type="date" name="bday" required>
+
+						<div>
+								<br>
+								Mobile:
+								<input id="mob" type="text" name="mobile" ng-model="user.mobile" maxlength="10" required>
+								<span ng-show="frm.mobile.$dirty && frm.mobile.$error.required" style="color: red">required!</span>
+						</div>
+
+
+
+						<div>
+								<br>
+								Email:
+								<input id="email" type="email" name="email" ng-model="user.email" required>
+								<span ng-show="frm.email.$dirty && frm.email.$error.required" style="color: red">required!</span>
+								<span ng-show="frm.email.$dirty && frm.email.$error.email" style="color: red">invalid!</span>
+						</div>
+						<div>
+								<br>Course:
+								<input id="mca" type="radio" ng-model="courseId" value="mca">MCA
+								<input id="msc" type="radio" ng-model="courseId" value="msc">MSc
+						</div>
+
+						<div>
+								<br>Semister:
+								<select id="sem">
+										<option value="1">sem 1</option>
+										<option value="2">sem 2</option>
+										<option value="3">sem 3</option>
+										<option value="4">sem 4</option>
+										<option value="5">sem 5 (MCA only)</option>
+										<option value="6">sem 6 (MCA only)</option>
+								</select>
+
+						</div>
+
+
+						<div>
+								<br>Do you have domicile ?
+								<input id="domicileYes" type="radio" ng-model="domicile" value="1">Yes
+								<input id="domicileNo" type="radio" ng-model="domicile" value="0">No
+						</div>
+
+						<br>Category: <input id="category" required>
+
+						<br><br>address:<br><textarea id="address" rows="4" cols="50" name="comment" form="usrform"></textarea>
+
+
+
+
+						<br><br>International Student? <input type="checkbox" ng-model="myVar">
+						<div ng-show="myVar">
+						<!-- for international student -->
+						<input id="international-admission-date" type="date">
+
+						<br><br>current address:<br><textarea id="international-current-address" rows="4" cols="50" name="comment" form="usrform"></textarea>
+
+
+						</div>
+						<input id="signup-button" type="submit">
+
+				</form>
+
+		</body>
+</html>

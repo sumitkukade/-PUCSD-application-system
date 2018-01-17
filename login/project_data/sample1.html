@@ -1,0 +1,29 @@
+<!DOCTYPE html>            
+<html>            
+<head> <!-- www.techstrikers.com -->             
+<link rel="stylesheet" href="./code.css"/>
+<ul>
+<li><a  class="active"  href="./log_staff.py">HOME</a></li>
+<li style="float:right"><a   href="./logout.py">LOGOUT</a></li>
+</ul>  
+<body >
+ <div ng-app="myapp" ng-controller="appController">
+
+<script src="./angular.min.js"></script>           
+ <script>            
+var app = angular.module('myapp', []);            
+    app.controller("appController", function ($scope,$http) { 
+	var url = "./json3.txt";
+	$http.get(url).then( function(response) {
+               $scope.chiarperson= response.data;
+   });
+});     
+     
+</script>
+ <br><form metod=post action="./log_staff.py">
+ <input type="Submit" value=Back>
+</form>                      
+<label><h1> Search Record:</h1>
+<label style="padding-left:0px;">Search As:<label>
+<input ng-model="fname" style="width:80px;"><br><br>
+      

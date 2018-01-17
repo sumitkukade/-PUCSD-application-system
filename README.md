@@ -1,3 +1,5 @@
+git push -u origin master
+
 Project:
   Pucsd application system
 
@@ -25,4 +27,3 @@ Developed By:
   Dnyaneshwar sukase & Pranali Lokhande:
     pucsd-application-system/login/project_data
     
-# -PUCSD-application-system

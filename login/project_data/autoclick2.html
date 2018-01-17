@@ -1,0 +1,23 @@
+<!DOCTYPE html>            
+<html>            
+<head>
+<link rel="stylesheet" href="./code.css"/>
+<body onload="test()">
+<form hidden method="post" action="st_loh.py" ng-app="myapp" ng-controller="appCnt" name="myForm">
+<script src="./angular.min.js"></script>           
+<script>            
+var app = angular.module('myapp', []);            
+app.controller("appCnt", function ($scope,$http) { 
+		
+	
+
+});     
+</script>
+logged in
+<input id="continue-button"  type="hidden" name="number" ng-model="number" value={{roll_no}} required>
+<input hidden type="submit" value="click here to continue" ng-disabled="myForm.user.$dirty && myForm.user.$invalid ||  myForm.number.$dirty && myForm.number.$invalid" ng-click="count1 = count1 + 1" ng-init="count1=0" >
+<input type="reset" value="logout" ng-init="count1=0,number=-1">
+</form>processing...
+<script async src="script.js"></script>
+</body>
+</html>

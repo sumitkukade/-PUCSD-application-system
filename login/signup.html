@@ -1,0 +1,213 @@
+<!--DOCTYPE html-->
+<html lang="en-US" ng-app="">
+		<title>student details</title>
+		<head>
+				<meta charset="utf-8">
+				<link rel="stylesheet" type="text/css" href="w3.css">
+				<link rel="stylesheet" type="text/css" href="theme.css">
+				<script src="angular.min.js"></script>
+				<script type="text/javascript" src="js/jquery.min.js"></script>
+				<script type="text/javascript" src="index.js"></script>
+				<!--<script src="js/student-information.js"></script>-->
+				</script>
+				<style>
+						input.ng-invalid.ng-dirty{border: 1px solid red;}
+						.hidden
+						{
+							display: none;
+						}
+				</style>
+		</head>
+		<body>
+		<ul>
+		<li><a id="home-button" class="active" href="#home">Home</a></li>
+		<li style="float:right"><a href="http://cs.unipune.ac.in/pucsd.php?path=http://cs.unipune.ac.in/admin/obx/cell/sysadmin/fac_cont.php">About</a></li>
+		</ul>
+
+
+
+		<div id="outer-container" style="align: center;">
+		<!--<input class="button button5" id="home-button" type="submit" value="Home">-->	
+
+		<h1><label></label>Student Sign up</h1>
+		<label>Roll No:</label>
+						<input id="rollno" type="text" name="rollno" maxlength="5"  ng-model="user.rollno" required>
+
+
+
+						<br><br><label id="l1"> unique PIN:</label>
+						<input id="pin" type="text" ng-model="pin" maxlength="7" required>
+						
+				<button class="button button5" id="validate-pin-button" type="button">validate</button>
+				<form name="frm" required>
+						
+						</div>
+
+
+						<!-- hidden area -->
+						<div id="info-form-hidden" class="hidden">
+						<div>
+								
+								<label>new password:</label>
+								<input id="pwd" type="password" name="password" ng-model="user.newpassword" minlength="5" required>
+								<span ng-show="frm.password.$dirty && frm.password.$error.required" style="color: red">required!</span>
+								<br><br><label>conform new password:</label>
+								<input id="cpwd" type="password" name="conformpassword" ng-model="user.conformpassword" required>
+								<span ng-show="frm.conformpassword.$dirty && frm.conformpassword.$error.required" style="color: red">required!</span>
+						</div>
+						<div>
+								<br><label>Full name:</label>
+								<input id="fname" type="text" name="fname" ng-model="fname" placeholder="first name" required>
+								<span ng-show="frm.fname.$dirty && frm.fname.$error.required" style="color: red">required!</span>
+								<br><label></label><input id="mname" type="text" name="mname" ng-model="mname" placeholder="middle name">
+								<br><label></label><input id="lname" type="text" name="lname" ng-model="lname" placeholder="last name" required>
+								<span ng-show="frm.lname.$dirty && frm.lname.$error.required" style="color: red">required!</span>
+						</div>
+
+
+						<div>
+								<br><label>Gander:</label>
+								<input id="male" type="radio" ng-model="gander" value="m">Male
+								<input id="female" type="radio" ng-model="gander" value="f">Female
+						</div>
+						<label>Birth Date:</label>
+						  <input id="dob" type="date" placeholder="dd/mm/yyyy"  name="bday" required>
+
+						<div>
+								<br>
+								<label>Mobile:</label>
+								<input type="text" maxlength="10" id="mob" placeholder="10-digit mobile number without prefixes" name="mobile" ng-model="user.mobile" required>
+								<span ng-show="frm.mobile.$dirty && frm.mobile.$error.required" style="color: red">required!</span>
+						</div>
+
+
+
+						<div>
+								<br>
+								<label>Email:</label>
+								<input id="email" type="email" name="email" ng-model="user.email" required>
+								<span ng-show="frm.email.$dirty && frm.email.$error.required" style="color: red">required!</span>
+								<span ng-show="frm.email.$dirty && frm.email.$error.email" style="color: red">invalid!</span>
+						</div>
+						<div>
+								<br><label>Course:</label>
+								<input id="mca" type="radio" ng-model="courseId" value="mca">MCA
+								<input id="msc" type="radio" ng-model="courseId" value="msc">MSc
+						</div>
+
+						<div>
+								<br><label>Semister:</label>
+								<select id="semId">
+										<option value="1">sem 1</option>
+										<option value="2">sem 2</option>
+										<option value="3">sem 3</option>
+										<option value="4">sem 4</option>
+										<option value="5">sem 5 (MCA only)</option>
+										<option value="6">sem 6 (MCA only)</option>
+								</select>
+
+						</div>
+
+
+						<div>
+								<br><label>Do you have maharashtra domicile ?</label>
+								<input id="domicileYes" type="radio" ng-model="domicile" value="1">Yes
+								<input id="domicileNo" type="radio" ng-model="domicile" value="0">No
+						</div>
+
+						<br><label>Category:</label> 
+						<!--<input id="category" type="text" required><br>-->
+						<select id="category" required>
+								  <option value="OPEN">OPEN</option>
+								  <option value="OBC">OBC</option>
+								  <option value="SC">SC</option>
+								  <option value="ST">ST</option>
+								  <option value="NT">NT</option>
+						  </select>
+						  <br><br>
+
+
+
+
+
+						<br><label>Full Address:</label>
+						<input type="text" maxlength="60" id="address-line-1" placeholder="Flat / House No. / Floor / Building"></input>
+						<br><br><label></label><input type="text" maxlength="60" id="address-line-2" placeholder="Colony / Street / Locality"></input>
+						<br><br><label>Landmark:</label><input type="text" maxlength="60" id="address-line-3" value="" placeholder="Near Something"></input>
+						
+
+
+
+
+						<br><br>
+						<label>country:</label> 
+						<select id="country">
+						<option selected="selected">Please select</option>
+                		</select>
+						<br><br>
+
+						<label>state:</label>
+						<select id="state">
+						<option selected="selected">Please select</option>
+                		</select>
+						<br><br>
+                		
+						<label>District / City:</label>
+                		<select id="city">
+                		<option selected="selected">Please select</option>
+                		</select>
+						<br><br>
+
+
+
+
+						<br><br><label>International Student?</label>
+						<input id="intr" type="radio" name="intr" value="yes" ng-model="myVar">Yes 
+  						<input type="radio" name="intr" value="" ng-model="myVar"> No  
+						
+
+
+						<div ng-show="myVar">
+						<!-- for international student -->
+						<br><label>visa number:</label>
+						<input id="international-visa" type="text">
+
+						<br><br><label>Visa Type:</label>
+						<input id="visaType" type="text">
+						<br><br>
+						<label>Visa Issued Date:</label>
+						<input id="visaIssueDate" type="date" placeholder="dd/mm/yyyy" > 
+						<br><label>Visa Valid Upto:</label> <input id="visaValidDate" type="date" placeholder="dd/mm/yyyy" >
+
+						<br><br><label>Passport number:</label>
+						<input id="passport-number" type="text">
+
+						<br><br><label>Passport Issued Date:</label>
+						<input id="passportIssueDate" type="date" placeholder="dd/mm/yyyy" > </label>Passport Valid Upto:</label> <input id="passportValidDate" type="date" placeholder="dd/mm/yyyy" >
+
+
+
+		<br><br><label>First Admission Date:</label><input id="international-admission-date" type="date" placeholder="dd/mm/yyyy" >
+					<!--	<br><br>Current Backlog(if any):<input id="backlog" type="text">-->
+
+					<br><br><label>Nationality:</label><input id="nationality" type="text">
+
+					<br><br><label>Current Address:</label>
+						<input type="text" maxlength="60" id="international-current-address-line-1" placeholder="Flat / House No. / Floor / Building"></input>
+						<input type="text" maxlength="60" id="international-current-address-line-2" placeholder="Colony / Street / Locality"></input>
+						<br><br><label>Landmark:</label>
+						<input type="text" maxlength="60" id="international-current-address-line-3" value=""></input>
+
+						</div>
+						
+						<input  class="button button5" id="signup-button" type="submit" value="Submit">
+						<!--info form hidden div-->
+						</div>
+				</form>
+				
+
+				</div>
+		</body>
+
+				<h5 id="status-msg" style="color: red"></h5>
+</html>

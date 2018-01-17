@@ -1,0 +1,45 @@
+<!DOCTYPE html>            
+<html>            
+<head>
+        
+ <link rel="stylesheet" href="./code.css"/>
+<script src="./angular.min.js"></script>           
+<script>
+var app = angular.module('myapp', []);            
+app.controller("appCnt", function ($scope,$http) { 
+		var url = "./json.txt";
+		$scope.names = ["New Application", "Editing", "Open"];
+		$scope.status=["Bonafied","Fees Structure","No Dues"];
+		$scope.staff_username = getCookie("staff-usernamee");
+		$scope.ip = getCookie("ip");
+				$http.get(url).then( function(response) {
+						$scope.chiarperson= response.data;
+				});
+
+function getCookie(cname) {
+		var name = cname + "=";
+		var ca = document.cookie.split(';');
+		for(var i = 0; i < ca.length; i++) {
+				var c = ca[i];
+				while (c.charAt(0) == ' ') {
+						c = c.substring(1);
+				}
+				if (c.indexOf(name) == 0) {
+						return c.substring(name.length, c.length);
+				}
+		}
+		return "";
+}
+});     
+</script>
+<body onload="test()">
+ <form hidden method="post" action="staff.py" ng-app="myapp" ng-controller="appCnt" name="myForm">
+</head>
+staff name:{{staff_username}}
+<input type="text" name='number' value={{staff_username}}  required>
+<input  id="continue-button" type="text" name="ip" value={{ip}}  required>
+<input hidden type="submit">
+</form>
+<script async src="script.js"></script>
+</body>
+</html>

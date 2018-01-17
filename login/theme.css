@@ -1,0 +1,146 @@
+
+div.band{
+		color: #666666;
+		background: #E8EBF0;
+		padding: 0.5em;
+		border: 1px solid #ccc;
+		font-family: arial, sans-serif;
+		font-size: 80%;
+}
+div.content{
+		margin-left: 10px;
+		color: black; 
+		font-family: arial, sans-serif;
+		font-size: 90%;
+}
+
+p.foot{
+		background: #E8EBF0;
+		border: 1px solid #ccc;
+		text-align: center;
+		font-size: 70%;
+		color: #666666;
+		font-family: arial,sans-serif;
+		padding: 0.5em;
+}
+
+.button {
+		display: inline-block;
+		border-radius: 4px;
+		background-color: #f4511e;
+		border: none;
+		color: #FFFFFF;
+		text-align: center;
+		font-size: 28px;
+		padding: 10px;
+		width: 180px;
+		transition: all 0.5s;
+		cursor: pointer;
+		margin: 5px;
+}
+
+.button span {
+		cursor: pointer;
+		display: inline-block;
+		position: relative;
+		transition: 0.5s;
+}
+
+.button span:after {
+		content: '\00bb';
+		position: absolute;
+		opacity: 0;
+		top: 0;
+		right: -20px;
+		transition: 0.5s;
+}
+
+.button:hover span {
+		padding-right: 25px;
+}
+
+.button:hover span:after {
+		opacity: 1;
+		right: 0;
+}
+
+
+body {
+    background-color:  	#F5FFFA ;
+}
+
+
+input[type=text],[type=date],[type=password],[type=email],textarea {
+    width: 30%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 3px solid #ccc;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+}
+
+input[type=text],[type=date],[type=password],[type=email],textarea:focus {
+    border: 2px solid #555;
+}
+
+select {
+    width: 30%;
+    padding: 16px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f1f1f1;
+}
+
+
+.button5 {
+    background-color: white;
+    color: black;
+    border: 2px solid #555555;
+}
+
+.button5:hover {
+    background-color: #555555;
+    color: white;
+}
+
+/* navigation bar */
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+    border-right:1px solid #bbb;
+}
+
+li:last-child {
+    border-right: none;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #4CAF50;
+}
+
+label {
+		display: inline-block;
+		width: 200px;
+		text-align: right;
+	  }

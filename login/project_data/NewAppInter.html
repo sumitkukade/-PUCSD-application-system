@@ -1,0 +1,59 @@
+<!DOCTYPE html>            
+<html>            
+<head>
+
+<link rel="stylesheet" href="./code.css"/>
+<body >
+ <div ng-app="myapp" ng-controller="appController">
+
+<script src="./angular.min.js"></script>           
+ <script>            
+
+var app = angular.module('myapp', []);            
+    app.controller("appController", function ($scope,$http) { 
+       	
+});     
+     
+</script>
+
+<label>New Application:
+<select ng-model="s" name="doc" ng-options="op for op in appli11">
+<option value="" disabled selected>Select your option</option>
+</select><br><p>
+<div class=cls>
+ <div ng-if="'International Bonafide Certificate'==s">
+  <form method="post" action="new_application_print.py/for_inter_bonafied")>
+<input type=hidden name="f" value="3">
+  <input type="submit" value="Submit">
+  </form>
+ </div>
+</div>
+<div class=cls>
+ <div ng-if="'Fees Structure Certificate'==s">
+  <form method="post" action="read_bank.py")>
+<input type=hidden name="f" value="2">
+  <input type="submit" value="Submit">
+  </form>
+ </div>
+</div>
+<div class=cls>
+ <div ng-if="'No Dues Certificate'==s">
+  <form method="post" action="new_application_print.py/for_nodues")>
+<input type=hidden name="f" value="1">
+  <input type="submit" value="Submit">
+  </form>
+ </div>
+</div>
+
+
+</form>
+</body>
+</head>
+</html>
+
+
+
+
+
+
+

@@ -1,0 +1,118 @@
+
+<script>
+var app = angular.module('submitTest' , ['htmlToPdfSave']) ;
+app.controller('myController' , function($scope) {
+
+});
+</script>
+<script src="./angular.min.js"></script>
+	<script src="./jquery.min.js"></script>
+	<script src="https://cdn.rawgit.com/niklasvh/html2canvas/0.5.0-alpha2/dist/html2canvas.min.js"></script>
+	<script src="./jspdf.debug.js"></script>
+	<script src="./saveHtmlToPdf.js"></script>
+<script id="tpl.tpl" type="text/ng-template">
+	Content of ng-template
+</script>
+
+<script>
+  var myApp = angular.module('submitTest', []);
+
+myApp.controller('myController', function($scope, $filter) {
+  $scope.myText = "Initial Set";
+  
+  $scope.setText = function() {
+    $scope.outsideText = $scope.autoForm.theText.$modelValue;
+  }
+});
+
+myApp.directive('autoSubmit', function($timeout) {
+  return {
+    require: 'form',
+    restrict: 'A',
+    scope: {
+      "ngSubmit": '&',
+      "autoSubmit": '@',
+      "timeoutShow": '='
+    },
+    link: function(scope, iElement, iAttrs, iCtrl) {
+      var autoSubmit = parseInt(scope.autoSubmit, 10);
+      
+      var submitTimeout = $timeout(function() {}, 0);
+      var showTimeTimeout = $timeout(function() {}, 0);
+      
+      var showTime = function() {
+        scope.timeoutShow = scope.autoSubmit / 1000;
+        showTimeTimeout = $timeout(function theFull() {
+          scope.timeoutShow = scope.timeoutShow - 1;
+          if (scope.timeoutShow <= 0) {
+            scope.timeoutShow = null;
+          } else {
+            $timeout(theFull, 1000);
+          }
+        }, 1000);
+      }
+        
+      
+      scope.$watch(function() { 
+        return iCtrl.$valid && iCtrl.$dirty; 
+      }, function(val, oldVal) {
+        if(val !== oldVal && val) {
+          iCtrl.$setPristine();
+          $timeout.cancel(submitTimeout);
+          $timeout.cancel(showTimeTimeout);
+        
+          showTime();
+          submitTimeout = $timeout(function() {
+            if (iCtrl.$valid) {
+              scope.ngSubmit({});
+              iCtrl.$setPristine();
+            }
+          }, autoSubmit);
+        }
+      });
+    }
+  };
+});</script>
+<div ng-app="submitTest">
+  <h2>Angular Form Auto-Submit Example</h2>
+  <div ng-controller="myController">
+    <form name="autoForm" novalidate timeout-show="time.submitTimeout" auto-submit="3000" ng-submit="setText()">
+      <input type="text" name="theText" ng-model="myText" class="input">
+
+
+
+
+
+<div pdf-save-content="idOne" >
+	
+		<h1 align="center">DEPARTMENT OF COMPUTER SCIENCE </h1>
+	<h2 align="center">SAVITRIBAI PHULE PUNE UNIVERSITY</h2>
+	<h3 align="right"> Phone: 020-25601446
+	<h3 align="right">   Fax: 020-256906361
+	  <h3 align="right">   Email:pucsd@pun.unipune.ac.in</h3>
+	  Ref. No. : CSD %s
+	  <h3 align="right"> Date:%s
+	 	<h2 align="center"> BONAFIDE CERTIFICATE</h2>
+    This is to certify that Mr./Ms.<b>%s</b> (Roll No.<b>%d</b> )  is a regular student of <b>%s</b>, course (year <b>%s</b>) <b>%d</b>-<b>%d</b> at the Department of Computer Science, Savitribai Phule, Pune University. This Certificate has been issued to the student on his/her request for the purpose of <b>%s</b>
+        As per record of this Department, the other details of the student are as follows:-
+		<h3 align="left">Address:</h3><b>%s</b><br><b>%s</b></br><b>%s</b></br>
+		<h3 align="left">Date of Birth:<h3><b>%s</b></h3>
+
+                <b>Head</b>
+	</div>
+
+
+      
+      
+
+      
+      <button type="submit" pdf-save-button="idOne" pdf-name="%s_BONAFIDE.pdf" class="ids">Go</button>
+      <label ng-show="time.submitTimeout">Submitting form in {{ time.submitTimeout }}</label>
+    </form>
+    <br/>
+    <br/>
+    <label>{{ outsideText }}</label>
+    <br/>
+    <br/>
+  </div>
+</div>

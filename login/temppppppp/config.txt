@@ -1,0 +1,4 @@
+path='/var/www/html/login'
+mysql_user='root'
+mysql_pswd='S'
+dpath='/home/dnyaneshwar/Downloads'

@@ -1,0 +1,753 @@
+import MySQLdb
+import re
+from subprocess import call
+from config_path import data
+from mod_python import Session
+sname=0
+def split_uppercase(s):
+            return re.sub(r'([^A-Z])([A-Z])', r'\1 \2',s)
+
+def index(req):
+    
+    global sname
+    session = Session.Session(req)
+    session['prps']=''
+    session.save()
+    session.load()
+    session.cleanup()
+    
+    try:
+       sname=session['sno'];
+    except:
+           return """<html>Session Expired<p><a href="../staff_log.html"> LOGIN AGAIN</a></html>"""
+    ip=session['ipaddr']
+    info=req.form
+    
+    try:
+        loop=info['pgs'];
+        session['loop']=loop
+	session.save()
+    except:
+        loop=session['loop']
+    
+
+    count=int(session['cnt'])+1;
+    req.content_type="text/html"
+    fo=open(data.path+"/project_data/nevtag.html","r");
+    fo=fo.read()
+    req.write(fo)
+    req.write("<title>"+sname+"</title>")
+    	
+    crpn=""
+    
+    db = MySQLdb.connect(
+    host="localhost",
+    user=data.mysql_user,
+    passwd=data.mysql_pswd,
+    db="userInputDatabase" )
+    # prepare a cursor object using cursor() method
+    cursor = db.cursor()
+    # prepare a cursor object using cursor() method
+    cursor = db.cursor()
+    
+    #table="""create table StudentStatusnew (RollNo int,Document varchar(50),status varchar(50));""";
+    #cursor.execute(table);
+    
+    ss="""select appDesc from applicationProcess.applicationDomain """
+    cursor.execute(ss);
+    val=cursor.fetchall()
+    appname=map(lambda x:x[0],val) 
+    
+   
+
+    
+    cursor.execute("""select  appId  from  applicationProcess.applicationDomain ;""");   
+    appid=cursor.fetchall()
+    appid=map(lambda x:x[0],appid)
+   
+
+     
+       
+    cursor.execute("""select  userId,remark,applicationPurpose from  applicationProcess.requestStateTransitions where toState= 'ApplicationSubmitted';""");   
+    val=cursor.fetchall()
+
+    val=map(lambda x:x,val)
+    newA=val
+     
+    
+    result=[]
+    appl=['Bonafide Certificate','Fee Structure Certificate For Bank','International Bonafide Certificate','No Dues Certificate']
+    
+   
+    arrayid=["Bonafide Certificate,apply for Bonafide Certificate","Fee Structure Certificate For Bank,apply for Fee Structure Certificate For Bank","International Bonafide Certificate,apply for International Bonafide Certificate","No Dues Certificate,apply for No Dues Certificate"]
+
+    cursor.execute("""select  userId,remark,applicationPurpose from  applicationProcess.requestStateTransitions where toState= 'RequestArrivedInOffice';""");   
+    rval=cursor.fetchall()
+    rval=map(lambda x:x,rval)
+    
+    	
+    
+    	
+    for i in range(0,len(newA)):
+      
+      ss="""select  * from  applicationProcess.requestStateTransitions where userId=%s and remark=%s order by requestId desc limit 1 ;"""
+      cursor.execute(ss,(str(val[i][0]),str(val[i][1])));
+      val1=cursor.fetchall()
+      val1=map(lambda x:x,val1[0])
+      result.append(val1)
+    d=6;
+        
+    for i,j,k in val[(len(rval)):]
+           			 return appid[appl.index(j)],i,j,k                       			 return appid[appl.index(j)],i,j,k                    
+            
+            if  j=='Bonafide Certificate':
+	                 k=k.strip()
+                         qr="""insert into inputRequests(requestTime,requestType,userId,tableId,iplog,params) values(NOW(),"insert",%s,"applicationRequestByStaff",%s,%s",ApplicationSubmitted,RequestArrivedInOffice,"%s","%s","%s);"""
+             
+                         cursor.execute(qr,(sname,str(ip),appid[appl.index(j)],i,j,k));
+                         db.commit()
+                         
+            else:
+                         
+                         qr="""insert into inputRequests(requestTime,requestType,userId,tableId,iplog,params) values(NOW(),"insert",%s,"applicationRequestByStaff",%s,%s",ApplicationSubmitted,RequestArrivedInOffice,"%s","%s);"""
+                         
+                         cursor.execute(qr,(sname,str(ip),appid[appl.index(j)],i,arrayid[appl.index(j)]));
+                         db.commit()
+            
+                         
+            q4 = """select msg from userInputDatabase.outputErrorMsgs where requestId = (select requestId from userInputDatabase.inputRequests where userId=%s  order by requestId desc limit 1);"""       
+             
+            cursor.execute(q4,(sname,))
+            res = cursor.fetchall()
+            if len(res)!=0:
+             
+         	return """</form><html>%s <form value="form" action="#" method="post"><input type=\"submit\"value=\"OK\"></form></html>"""%(res[0])
+            
+
+    query="""DROP TABLE IF EXISTS userInputDatabase.StudentStatusnew;""";
+    cursor.execute(query);
+    db.commit()
+
+    table="""create table userInputDatabase.StudentStatusnew(RollNo int,Ref_No varchar(20), Document varchar(50),status varchar(50));""";
+    cursor.execute(table);
+       
+    
+    newA.reverse()
+    
+    for i,j,k in (newA):
+                if j=='Bonafide Certificate': 
+    			     
+                            ss="""select toState from applicationProcess.aux_studentAndState where rollNumber=%s and appId=%s and applicationPurpose=%s   order by requestId desc limit 1 ;"""   
+                            cursor.execute(ss,(i,appid[appl.index(j)],k));   
+                            re=cursor.fetchall()
+                           
+                            re=map(lambda x:x,re)
+                            b=split_uppercase(re[0][0])
+                               
+                            ss="""select refNo from applicationProcess.applicationFormForStaff where rollNumber=%s and appId=%s and applicationPurpose=%s;"""
+                            
+                           
+                            cursor.execute(ss,(i,appid[appl.index(j)],k));   
+                            rl=cursor.fetchall()
+                            rl=map(lambda x:x[0],rl)
+                            
+                            if len(rl)==0:
+                                        rl=''
+                            else:
+                                        rl=rl[0]
+                                        
+                                        
+                            if len(re)!=0:
+                                        re=map(lambda x:x[0],re)
+					
+                                        ss="""insert into userInputDatabase.StudentStatusnew values(%s,%s,%s,%s)"""
+                                        cursor.execute(ss,(i,"CSD/"+str(rl),j+" For "+k,b))
+                                        db.commit();
+     			    
+                else:
+			    
+                            ss="""select toState from applicationProcess.aux_studentAndState where rollNumber=%s and appId=%s   order by requestId desc limit 1 ;"""   
+                            cursor.execute(ss,(i,appid[appl.index(j)]));   
+                            re=cursor.fetchall()
+                            re=map(lambda x:x,re)
+                            b=split_uppercase(re[0][0])
+                            
+                            ss="""select refNo from applicationProcess.applicationFormForStaff where rollNumber=%s and appId=%s;"""
+                            
+                            
+                            cursor.execute(ss,(i,appid[appl.index(j)]));   
+                            rl=cursor.fetchall()
+                            rl=map(lambda x:x[0],rl)
+                            
+                            if len(rl)==0:
+                                        rl=''
+                            else:
+                                        rl=rl[0]
+                                        
+                                        
+                            if len(re)!=0:
+                                        re=map(lambda x:x[0],re)
+                                        ss="""insert into userInputDatabase.StudentStatusnew values(%s,%s,%s,%s)"""
+                                        cursor.execute(ss,(i,"CSD/"+str(rl),j,b))
+                                        db.commit();
+     
+
+
+
+
+
+
+                            
+    fp1=open(data.path+"/project_data/json.txt","w");
+    fp1.write("[");
+    
+    cursor.execute(""" select * from userInputDatabase.StudentStatusnew limit %s offset %s; """%(int(data.sizeforpage)+1,loop));
+    valall=cursor.fetchall()
+    
+    cursor.execute(""" select * from userInputDatabase.StudentStatusnew limit %s,%s;"""%(loop,int(data.sizeforpage)));
+    val=cursor.fetchall()
+    
+    names = list(map(lambda x: x[0], cursor.description))  
+    
+    for i in range(0,len(val)):
+        fp1.write("{");
+    	for n in range(0,len(names)):
+		fp1.write("\""+str(names[n])+"\":");
+		if str(val[i][n]).isdigit():
+                	fp1.write(str(val[i][n]));
+		else:
+	                fp1.write("\""+str(val[i][n])+"\"");
+		
+		if not n==len(names)-1:
+		  fp1.write(",\n");
+	if not i==len(val)-1:
+        	fp1.write("},\n");
+	else:
+		fp1.write("}	\n");
+		
+
+    fp1.write("]");
+         
+    fp2=open(data.path+"/project_data/json1.txt","w");
+    fp2.write("[");
+    
+    for n in range(0,len(names)):
+                fp2.write("{");
+                if n==len(names)-1:
+                    fp2.write("count:0}");	
+		else:	
+		 fp2.write("count:0},");	
+
+    fp2.write("]");
+    	
+    #crpn+="""</form><form align=right method="post" action="search-data-in-table.py"><input type="submit" value="Rejected Student List"></form><p>"""
+    #crpn+="""</form><form method="post" action="search-data-in-table1.py"><input type="submit" value="Certificate Collected Student List"></form><hr>"""
+    	
+    crp=open(data.path+"/project_data/sample.html","r");
+    crpn+=crp.read()
+    crpn+=("""</form><html><div class=\"inner\"><form  method="post" action="./newprint.py"><input type=hidden value={{all}} name=\"all\"><input type=hidden value={{items}} name=\"printarray\"><input type=\"submit\" value=\"Download zip\"></form></div></html><br>""");
+    
+    db = MySQLdb.connect(
+    host="localhost",
+    user=data.mysql_user,
+    passwd=data.mysql_pswd,
+    db="userInputDatabase" )
+    # prepare a cursor object using cursor() method
+    cursor = db.cursor()
+    ss="""select output from outputResults;"""
+    cursor.execute(ss)
+    apsts=cursor.fetchall()
+    
+    
+    
+    db = MySQLdb.connect(
+    host="localhost",
+    user=data.mysql_user,
+    passwd=data.mysql_pswd,
+    db="mysql" )
+    db.close()
+
+
+
+   
+    qq1="""select staffActionTo from applicationProcess.staffActionDomain where staffActionFrom='ApplicationRejectedByOffice'""";
+    cursor.execute(qq1)
+    qres=cursor.fetchall()
+    qres= map(lambda x:str(x[0]),qres)
+    a=split_uppercase(qres[0])
+    b=split_uppercase(qres[1])
+    qres=[]
+    qres.append(a)
+    qres.append(b)
+    
+    qq2="""select staffActionTo from applicationProcess.staffActionDomain where staffActionFrom='ApplicationSubmitted'""";
+    cursor.execute(qq2)
+    qres2=cursor.fetchall()
+    qres2= map(lambda x:str(x[0]),qres2)
+    a=split_uppercase(qres2[0])
+    qres2=[]
+    qres2.append(a)
+    
+    qq3="""select staffActionTo from applicationProcess.staffActionDomain where staffActionFrom='FormPrinted'""";
+    cursor.execute(qq3)
+    qres3=cursor.fetchall()
+    qres3= map(lambda x:str(x[0]),qres3)
+    a=split_uppercase(qres3[0])
+    b=split_uppercase(qres3[1])
+    e=split_uppercase(qres3[2])
+    qres3=[]
+    qres3.append(a)
+    qres3.append(b)
+    qres3.append(e)
+    
+    qq4="""select staffActionTo from applicationProcess.staffActionDomain where staffActionFrom='ApplicationModification'""";
+    cursor.execute(qq4)
+    qres4=cursor.fetchall()
+    qres4= map(lambda x:str(x[0]),qres4)
+    a=split_uppercase(qres4[0])
+    b=split_uppercase(qres4[1])
+    qres4=[]
+    qres4.append(a)
+    qres4.append(b)
+
+    qq5="""select staffActionTo from applicationProcess.staffActionDomain where staffActionFrom='FormSigned'""";
+    cursor.execute(qq5)
+    qres5=cursor.fetchall()
+    qres5= map(lambda x:str(x[0]),qres5)
+    a=split_uppercase(qres5[0])
+    b=split_uppercase(qres5[1])
+    e=split_uppercase(qres5[2])
+    qres5=[]
+    qres5.append(a)
+    qres5.append(b)
+    qres5.append(e)
+    try:
+      qres5.remove('Form Printed')
+    except:
+           a="ok"
+   
+    qq6="""select staffActionTo from applicationProcess.staffActionDomain where staffActionFrom='CertificateCollectedByStudent'""";
+    cursor.execute(qq6)
+    qres6=cursor.fetchall()
+    qres6= map(lambda x:str(x[0]),qres6)
+    a=split_uppercase(qres6[0])
+    qres6=[]
+    qres6.append(a)
+    
+    qq7="""select staffActionTo from applicationProcess.staffActionDomain where staffActionFrom='RequestArrivedInOffice'""";
+    cursor.execute(qq7)
+    qres7=cursor.fetchall()
+    qres7= map(lambda x:str(x[0]),qres7)
+    a=split_uppercase(qres7[0])
+    b=split_uppercase(qres7[1])
+    e=split_uppercase(qres7[2])
+    qres7=[]
+    qres7.append(a)
+    qres7.append(b)
+    qres7.append(e)
+    	
+    try:
+      qres7.remove('Form Printed')
+      qres7.remove('Application Modification');
+    except:
+           a="ok"
+   
+
+    qq8="""select staffActionTo from applicationProcess.staffActionDomain where staffActionFrom='RequestFinishedSuccessfully'""";
+    cursor.execute(qq8)
+    qres8=cursor.fetchall()
+    qres8= map(lambda x:str(x[0]),qres8)
+    a=split_uppercase(qres8[0]) 
+    qres8=[]
+    qres8.append(a)
+    
+    qq9="""select staffActionTo from applicationProcess.staffActionDomain where staffActionFrom='SignedFormArrivedInOffice'""";
+    cursor.execute(qq9)
+    qres9=cursor.fetchall()
+    qres9= map(lambda x:str(x[0]),qres9)
+    a=split_uppercase(qres9[0])
+    b=split_uppercase(qres9[1])
+    e=split_uppercase(qres9[2])
+    qres9=[]
+    qres9.append(a)
+    qres9.append(b)
+    qres9.append(e)
+    qq10="""select staffActionTo from applicationProcess.staffActionDomain where staffActionFrom='ModificationSuccessfully'""";
+    cursor.execute(qq10)
+    qres10=cursor.fetchall()
+    qres10= map(lambda x:str(x[0]),qres10)
+    a=split_uppercase(qres10[0])
+    b=split_uppercase(qres10[1])
+    qres10=[]
+    qres10.append(a)
+    qres10.append(b)
+      
+
+    crpn+="""NEW REQUEST<input type=checkbox ng-model=\'chkk\'><span ng-if=\"chkk==true\" ng-init="change()"></span><span ng-if=\"chkk==false\" ng-init="change1()"></span>"""
+    #crpn+="""<label ></label>Select All<input type=\"checkbox\" ng-model=\"all\"> """	
+    
+
+	
+    crpn+="<table border=1  class=\"myTable\"><tr>"
+    
+    for i in names:
+      crpn+="<th textcolor=\"black\">%s</th>"%(i)
+    crpn+="</tr>"
+    for i in names:
+        if i=='RollNo' or i=="Ref_No":
+		crpn+="<td style=\"width:10px;\"><input style=\"width:120px;\"  ng-model=\"ch.%s\" placeholder=\"search %s\"></td>"%(i,i) 
+        else:	
+		crpn+="<td style=\"width:10px;\"><input ng-model=\"ch.%s\" placeholder=\"search %s\"></td>"%(i,i) 
+    crpn+="""<th input >Select All &nbsp<input type=\"checkbox\" ng-model=\"all\"></th>"""
+    crpn+="</tr>"
+    crpn+="<tr\" ng-repeat=\"chrp in chiarperson|filter:ch|filter:statuspa|filter:fname\">"
+
+    
+    crpn+="<tr ng-repeat=\"chrp in chiarperson|filter:ch|filter:fname|filter:chk\"><p>"
+    lnt=len(names);
+   
+   
+    ss=""
+
+    ll	="""select status from userInputDatabase.StudentStatusnew;"""
+    cursor.execute(ll)
+    aps=cursor.fetchall()
+    aps=map(lambda x:x[0],aps);
+
+    
+ 
+    allre="""SELECT count(*) FROM  applicationProcess.studentApplicationQueue""";
+    cursor.execute(allre)
+    allre=cursor.fetchall();
+    
+    if allre[0][0]!=0:
+       allre=allre[0][0]
+    else:
+         allre=1;
+    #crpn+="<label>Check me to check both: <input type=\"checkbox\" ng-model=\"leader\"></label><br/>" 
+
+    
+    ss="""Select * from applicationProcess.studentApplicationQueue order by requestId  limit %s,1;"""%(str(count%allre))
+    
+    cursor.execute(ss);
+    
+    que=cursor.fetchall()
+    
+    qrl='';
+    qid='';
+    if len(que)!=0:
+        que=que[0]
+        qrl=que[1]
+        qid=que[2]
+    
+    
+    ss="""Select appDesc from applicationProcess.applicationDomain where appId='%s';"""%(str(qid));
+    cursor.execute(ss);
+    qdc=cursor.fetchall()
+    if len(qdc)!=0:
+        qdc=qdc[0][0]
+    else:
+        qdc=''
+    
+    
+        
+    if (int(loop)-1)>=0:         
+		crpn+=("""<div class=\"inner\"></form><html><form method="post" action="./log_staff.py"><input type=hidden value='%s' name='pgs'><input type="submit" value=&laquo;prev></form></html></div>&nbsp&nbsp"""%(int(loop)-int(data.sizeforpage)))
+   	
+    if len(valall)>(int(data.sizeforpage)):
+ 	crpn+=("""</form><html><div class=\"inner\"><form method="post" action="./log_staff.py"><input type=hidden value='%s' name='pgs'><input type="submit" value=next&raquo;></form></div></html>"""%((int(loop)+int(data.sizeforpage))));
+    try:
+    	p=int(loop)/int(data.sizeforpage)
+    except:
+	p=0;
+    crpn+="""<p>Page No:%s"""%(p) 
+    for n in range(0,lnt):
+      if names[n]=='RollNo' or names[n]=='Ref_No':
+      	  crpn+="<td style=\"width:10px;\">{{chrp.%s}}</td>"%(names[n]);
+      else:	
+        crpn+="<td>{{chrp.%s}}</td>"%(names[n]);
+    
+
+      cnt=1;
+      
+      if('status' in names[n]):
+        enb=''      			
+    	crpn+="<td ng-if=\"chrp.%s ==\'Application Rejected By Office\'\" ng-init=\"ststs2=%s\">"%(names[n],qres)                        
+    	crpn+="</form><html><head><body><form value=\"form\" action=\"log_staff.py/okfun\" method=\"post\"> Remark<input type=\"text\" name=\"rmk\"> <input type=hidden name=\"rono\" value={{chrp.RollNo}}><input type=hidden name=\"docm\" value={{chrp.Document}}></lable><select   name=\"sopt\" ng-model=\"stats2\" name=''ng-options=\"op for op in ststs2\"></select>"%(qres)
+        
+        fp=open(data.path+"/project_data/nn.html")
+        crpn+=fp.read();
+	
+        
+        
+        crpn+="</td>"  
+
+
+
+
+
+        crpn+="<td  ng-if=\"chrp.%s ==\'Application Submitted\'\" ng-init=\"ststs3=%s\">"%(names[n],qres2)                        
+    	crpn+="</form><html><head><body><form value=\"form\" action=\"log_staff.py/okfun\" method=\"post\"><input type=hidden name=\"rono\" value={{chrp.RollNo}}><input type=hidden name=\"docm\" value={{chrp.Document}}></lable><select  name=\"sopt\" ng-model=\"stats3\" name=''ng-options=\"op for op in ststs3\"> </select>"
+        
+        fp=open(data.path+"/project_data/nn.html")
+        crpn+=fp.read();
+        crpn+="</td>"  
+	
+	
+            
+        crpn+="<td ng-if=\"chrp.%s ==\'Form Printed\'\" ng-init=\"ststs4=%s\">"%(names[n],qres3)                        
+    	crpn+="</form><html><head><body><form value=\"form\" action=\"log_staff.py/okfun\" method=\"post\"><input type=hidden name=\"rono\" value={{chrp.RollNo}}><input type=hidden name=\"docm\" value={{chrp.Document}}></lable><select %s name=\"sopt\" ng-model=\"stats4\" name=''ng-options=\"op for op in ststs4\"> </select>"%(enb)
+        
+        fp=open(data.path+"/project_data/nn.html")
+        crpn+=fp.read();
+        crpn+="</td><div>" 
+	crpn+="<td ng-if=\"chrp.%s ==\'Form Printed\'\" ng-init=\"ststs4=%s\">"%(names[n],qres3)                        
+        crpn+="""<input type=\"checkbox\" ng-checked=\"all\" ng-model=s1>
+		<div ng-if="s1==true" ng-init="addToCart(chrp.RollNo+'&'+chrp.Document)"></div>"""
+        crpn+="""<div ng-if="s1==false" ng-init="removeToCart(chrp.RollNo+'&'+chrp.Document)"></div></td>"""
+
+
+        crpn+="<td ng-if=\"chrp.%s ==\'Application Modification\'\" ng-init=\"ststs12=%s\">"%(names[n],qres4)                        
+    	crpn+="</form><html><head><body><form value=\"form\" action=\"log_staff.py/okfun\" method=\"post\"><input type=hidden name=\"rono\" value={{chrp.RollNo}}><input type=hidden name=\"docm\" value={{chrp.Document}}></lable><select  name=\"sopt\" ng-model=\"stats12\" name=''ng-options=\"op for op in ststs12\"> </select>"
+        fp=open(data.path+"/project_data/nn.html")
+
+        crpn+=fp.read();
+        crpn+="<form value=\"form\" action=\"refno.py\" method=\"post\"><input type=hidden name=\"rono\" value={{chrp.RollNo}}><input type=hidden name=\"docm\" value={{chrp.Document}}><input type=submit value=EDIT></form>"  
+
+	crpn+="<td ng-if=\"chrp.%s ==\'Application Modification\'\" ng-init=\"ststs5=%s\">"%(names[n],qres5)                        
+	crpn+="""<input type=\"checkbox\" ng-checked=\"all\" ng-model=s1>
+		<div ng-if="s1==true" ng-init="addToCart(chrp.RollNo+'&'+chrp.Document)"></div>"""
+    	crpn+="""<div ng-if="s1==false" ng-init="removeToCart(chrp.RollNo+'&'+chrp.Document)"></div></td>"""
+
+
+
+
+        
+      
+        crpn+="<td ng-if=\"chrp.%s ==\'Form Signed\'\" ng-init=\"ststs5=%s\">"%(names[n],qres5)                        
+    	crpn+="</form><html><head><body><form value=\"form\" action=\"log_staff.py/okfun\" method=\"post\"><input type=hidden name=\"rono\" value={{chrp.RollNo}}><input type=hidden name=\"docm\" value={{chrp.Document}}></lable><select  name=\"sopt\" ng-model=\"stats5\" name=''ng-options=\"op for op in ststs5\"> </select>"
+        
+        fp=open(data.path+"/project_data/nn.html")
+        crpn+=fp.read();
+        crpn+="</td>"  
+        
+	crpn+="<td ng-if=\"chrp.%s ==\'Form Signed\'\" ng-init=\"ststs5=%s\">"%(names[n],qres5)                        
+	crpn+="""<input type=\"checkbox\" ng-checked=\"all\" ng-model=s1>
+		<div ng-if="s1==true" ng-init="addToCart(chrp.RollNo+'&'+chrp.Document)"></div>"""
+    	crpn+="""<div ng-if="s1==false" ng-init="removeToCart(chrp.RollNo+'&'+chrp.Document)"></div></td>"""
+
+ 
+
+
+        crpn+="<td ng-if=\"chrp.%s ==\'Certificate Collected By Student\'\" ng-init=\"ststs6=%s\">"%(names[n],qres6)                        
+    	crpn+="</form><html><head><body><form value=\"form\" action=\"log_staff.py/okfun\" method=\"post\"><input type=hidden name=\"rono\" value={{chrp.RollNo}}><input type=hidden name=\"docm\" value={{chrp.Document}}></lable><select  name=\"sopt\" ng-model=\"stats6\" name=''ng-options=\"op for op in ststs6\"></select>"
+        
+        fp=open(data.path+"/project_data/nn.html")
+        crpn+=fp.read();
+        crpn+="</td>"
+	crpn+="<td ng-if=\"chrp.%s ==\'Certificate Collected By Student\'\" ng-init=\"ststs6=%s\">"%(names[n],qres6)                        
+   
+        crpn+="""<input type=\"checkbox\" ng-checked=\"all\" ng-model=s1>
+		<div ng-if="s1==true" ng-init="addToCart(chrp.RollNo+'&'+chrp.Document)"></div>"""
+	crpn+="""<div ng-if="s1==false" ng-init="removeToCart(chrp.RollNo+'&'+chrp.Document)"></div></td>"""
+
+
+
+
+        crpn+="<td  ng-if=\"chrp.%s ==\'Request Arrived In Office\'\" ng-init=\"ststs7=%s\">"%(names[n],qres7)                        
+    	crpn+="</form><html><head><body><form value=\"form\" action=\"log_staff.py/okfun\" method=\"post\"><input type=hidden name=\"rono\" value={{chrp.RollNo}}><input type=hidden name=\"docm\" value={{chrp.Document}}></lable><select  %s name='sopt' ng-model=\"stats7\" ng-options=\"op for op in ststs7\">"%(enb)
+        fp=open(data.path+"/project_data/nn.html")
+
+        crpn+=fp.read();
+        crpn+="<form value=\"form\" action=\"refno.py\" method=\"post\"><input type=hidden name=\"rono\" value={{chrp.RollNo}}><input type=hidden name=\"docm\" value={{chrp.Document}}><input type=submit value=EDIT></form></td>"  
+        
+
+
+        crpn+="<td ng-if=\"chrp.%s ==\'Request Finished Successfully\' || chrp.%s ==\'Request Fisnished With Error\' \" ng-init=\"ststs8=%s\">"%(names[n],names[n],qres8)                        
+    	crpn+="</form><html><head><body><form value=\"form\" action=\"log_staff.py/okfun\" method=\"post\"><input type=hidden name=\"rono\" value={{chrp.RollNo}}><input type=hidden name=\"docm\" value={{chrp.Document}}></lable><select  name=\"sopt\" ng-model=\"stats8\" name=''ng-options=\"op for op in ststs8\"> </select>"
+        
+        fp=open(data.path+"/project_data/nn.html")
+        crpn+=fp.read();
+        crpn+="</td>"
+	crpn+="<td ng-if=\"chrp.%s ==\'Request Finished Successfully\' || chrp.%s ==\'Request Fisnished With Error\' \" ng-init=\"ststs8=%s\">"%(names[n],names[n],qres8)   
+	crpn+="""<input type=\"checkbox\" ng-checked=\"all\" ng-model=s1>
+		<div ng-if="s1==true" ng-init="addToCart(chrp.RollNo+'&'+chrp.Document)"></div>"""
+	crpn+="""<div ng-if="s1==false" ng-init="removeToCart(chrp.RollNo+'&'+chrp.Document)"></div></td>"""
+
+
+        
+
+
+        crpn+="<td ng-if=\"chrp.%s ==\'Signed Form Arrived In Office\'\" ng-init=\"ststs9=%s\">"%(names[n],qres9)                        
+    	crpn+="</form><html><head><body><form value=\"form\" action=\"log_staff.py/okfun\" method=\"post\"><input type=hidden name=\"rono\" value={{chrp.RollNo}}><input type=hidden name=\"docm\" value={{chrp.Document}}></lable><select  name=\"sopt\" ng-model=\"stats9\" name=''ng-options=\"op for op in ststs9\"> </select>"
+        
+        fp=open(data.path+"/project_data/nn.html")
+        crpn+=fp.read();
+        crpn+="</td>"
+	crpn+="<td ng-if=\"chrp.%s ==\'Signed Form Arrived In Office\'\" ng-init=\"ststs9=%s\">"%(names[n],qres9)                        
+	
+	crpn+="""<input type=\"checkbox\" ng-checked=\"all\" ng-model=s1>
+		<div ng-if="s1==true" ng-init="addToCart(chrp.RollNo+'&'+chrp.Document)"></div>"""
+	crpn+="""<div ng-if="s1==false" ng-init="removeToCart(chrp.RollNo+'&'+chrp.Document)"></div></td>"""
+
+  
+        
+
+        
+
+
+    
+
+        crpn+="<td ng-if=\"chrp.%s ==\'Modification Successfully\' \" ng-init=\"ststs10=%s\">"%(names[n],qres10)
+                        
+    	crpn+="</form><html><head><body><form value=\"form\" action=\"log_staff.py/okfun\" method=\"post\"><input type=hidden name=\"rono\" value={{chrp.RollNo}}><input type=hidden name=\"docm\" value={{chrp.Document}}></lable><select  name=\"sopt\" ng-model=\"stats10\" name=''ng-options=\"op for op in ststs10\"> </select>"
+        
+        fp=open(data.path+"/project_data/nn.html")
+        crpn+=fp.read();
+        crpn+="<span class=\"in\"><form value=\"form\" action=\"pdf.py\" method=\"post\"><input type=hidden name=\"rono\" value={{chrp.RollNo}}><input type=hidden name=\"docm\" value={{chrp.Document}}><input type=submit value=PRINT></form></div></td>"
+	crpn+="<td ng-if=\"chrp.%s ==\'Modification Successfully\' \" ng-init=\"ststs10=%s\">"%(names[n],qres10)
+	crpn+="""<input type=\"checkbox\" ng-checked=\"all\" ng-model=s1>
+		<div ng-if="s1==true" ng-init="addToCart(chrp.RollNo+'&'+chrp.Document)"></div>"""
+	crpn+="""<div ng-if="s1==false" ng-init="removeToCart(chrp.RollNo+'&'+chrp.Document)"></div></td>"""
+
+  
+	      #crpn+="<td><input id=\"checkFollower\" ng-model=\"leader\" type=\"checkbox\" ng-checked=\"leader\" aria-label=\"Follower input \">{{leader}}</td>"
+	
+         
+    #crpn+="<td>{{stats}}<td>"
+      
+    return """<html>%s</html>"""%(crpn)
+    
+def okfun(req):
+
+   session = Session.Session(req)
+   session.load()	
+   sname=session['sno']
+   ip=session['ipaddr']
+   
+   info = req.form
+   info=req.form
+   rolno=info['rono']
+   
+   docm=info['docm']
+   docm1=info['docm']
+   stt=info['sopt']
+   if len(stt)==0 or len(stt)==1:
+           fp=open(data.path+"/project_data/autoclick3.html")
+           fp=fp.read()   
+           return fp
+   db = MySQLdb.connect(
+   host="localhost",
+   user=data.mysql_user,
+   passwd=data.mysql_pswd,
+   db="userInputDatabase" )
+   cursor = db.cursor()
+   try:
+               if "Bonafide Certificate For" in docm:
+               		docm=docm.split('For')
+	      		docm=docm[0].strip()
+               		edit=docm1.split('Bonafide Certificate For')
+	       		edit=edit[1].strip()
+	       else:
+			edit=''
+   except:
+               docm=docm
+               edit='';
+  
+   ss="""select  appId from applicationProcess.applicationDomain where appDesc='%s';"""%(docm)
+   cursor.execute(ss)   
+   val=cursor.fetchall()
+   
+   val=map(lambda x:x[0],val)
+  
+   ss="""select status  from StudentStatusnew where RollNo=%s and Document= %s;""";
+   cursor.execute(ss,(rolno,docm1))   
+   sts=cursor.fetchall()
+   
+   
+   sts=map(lambda x:x[0],sts)[0]
+   sts=sts.replace(" ", "")
+     
+   stt=stt.replace("string:","").strip()
+   stt=stt.replace(" ", "")
+   
+   arrayid=["Bonafide Certificate,%s"%(edit),"Fee Structure Certificate For Bank,apply for Fee Structure Certificate For Bank","International Bonafide Certificate,apply for International Bonafide Certificate","No Dues Certificate,apply for No Dues Certificate"]
+   for i in arrayid:
+        if docm in i:
+           
+           if stt=='FormPrinted':
+
+                if docm=='International Bonafide Certificate':
+                    filename="""%s_International_bonafide.pdf"""%(rolno);
+                elif docm in 'Bonafide Certificate For':
+                    filename="""%s_Bonafide_For_%s.pdf"""%(rolno,edit)
+                elif docm=='Fee Structure Certificate For Bank':
+                     filename="""%s_feestructure.pdf"""%(rolno);
+                elif docm=='No Dues Certificate':
+                      filename="%s_No_Dues.pdf"%(rolno)
+                
+		try:
+	 		s1=open(data.path+'/project_data/doc_pdf/'+filename,"r");
+                except:
+                	return """<html><html><link rel="stylesheet" href="../code.css"/><ul><li><a  class="active"  href="../st_loh.py">HOME</a></li><li style="float:right"><a href="../logout.py">LOGOUT</a></li></ul><br><b>FIRSTLY PRINT FORM</b><p><form method="post" action="../log_staff.py"><input type="submit" value="Back"></form></html>""";
+                
+		s1=s1.read()
+                
+		db = MySQLdb.connect(
+		host="localhost",
+		user=data.mysql_user,
+		passwd=data.mysql_pswd,
+		db="userInputDatabase")
+		cursor = db.cursor();
+                
+
+                
+                ss="""insert into userInputDatabase.inputRequests(requestTime,requestType,userId,tableId,iplog,applicationPdf,params) values(NOW(),"insert",%s,"applicationRequestByStaff",%s,%s,%s);"""
+                
+                cursor.execute(ss,(sname,ip,s1,(val[0]+","+sts+","+stt+","+rolno+","+i)))
+
+                    
+
+   
+           elif sts=='ApplicationModification' and stt=='ApplicationRejectedByOffice':
+ 
+                          mds2="""%s,ApplicationModification,ApplicationRejectedByOffice,%s,%s);"""%(val[0],rolno,i);
+                          sd2="""insert into userInputDatabase.inputRequests(requestTime,requestType,userId,tableId,params) values(NOW(),"insert",%s,"applicationRequestByStaff",%s);"""
+                          cursor.execute(sd2,(sname,mds2))
+                          db.commit()
+  
+           elif 'CertificateCollectedByStudent'==sts:
+                
+                 
+                 ss="""insert into userInputDatabase.inputRequests(requestTime,requestType,userId,tableId,iplog,params) values(NOW(),"insert",%s,"applicationRequestByStaff",%s,%s);"""
+                 cursor.execute(ss,(sname,ip,(val[0]+","+sts+","+stt+','+rolno+','+i)));
+           elif sts=="ApplicationRejectedByOffice":
+              remark=info['rmk'];
+              ss="""insert into userInputDatabase.inputRequests(requestTime,requestType,userId,tableId,iplog,params) values(NOW(),"insert",%s,"applicationRequestByStaff",%s,%s);"""
+              nr=i.split(',');
+              nr[0]=remark+',';
+              nr=''.join(nr)
+              
+              cursor.execute(ss,(sname,ip,(val[0]+","+sts+","+stt+','+rolno+','+nr)));
+           elif 'ModificationSuccessfully'==stt:
+                          mds="""%s,ApplicationModification,ModificationSuccessfully,%s,%s);"""%(val[0],rolno,i);
+                          sd="""insert into userInputDatabase.inputRequests(requestTime,requestType,userId,tableId,params) values(NOW(),"insert",%s,"applicationRequestByStaff",%s);"""
+                          cursor.execute(sd,(sname,mds))
+                          db.commit()  
+                
+           else:
+             ss="""insert into userInputDatabase.inputRequests(requestTime,requestType,userId,tableId,iplog,params) values(NOW(),"insert",%s,"applicationRequestByStaff",%s,%s);"""
+       
+             cursor.execute(ss,(sname,ip,(val[0]+","+sts+","+stt+","+rolno+','+i)))
+             
+           a=split_uppercase(stt)
+           
+           ss="""update StudentStatusnew set status=%s where RollNo=%s and Document=%s;"""   
+           cursor.execute(ss,(a,rolno,docm));
+           db.commit()
+           session['cnt']=int(session['cnt'])+1
+           session.save()
+           
+           fp=open(data.path+"/project_data/autoclick3.html")
+           fp=fp.read()   
+           return fp

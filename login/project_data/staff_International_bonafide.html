@@ -1,0 +1,53 @@
+<!DOCTYPE html>            
+<html>            
+<head>
+
+<link rel="stylesheet" href="./code.css"/>
+<ul>
+<li><a  class="active"  href="./log_staff.py">HOME</a></li>
+<li style="float:right"><a   href="./logout.py">LOGOUT</a></li>
+</ul> 
+<body >
+ 
+<div ng-app="myApp" ng-controller="datCtrl">
+<script src="./angular.min.js"></script>           
+<form method="post" action=staff_International_bonafide.py>
+ <h1> Details</h1>
+   <label>Ref No:</label>
+
+ <input type =number required="" name='dossss' value=%s  maxlength="30"><p> <input type=hidden name='rln' value=%s>
+    	   	
+                 <div><label>Date:</label><input type=Date  name='date' value={{today|date:"d/MM/yyyy"}}></div><p>
+
+
+ <label>REP NO:</label><input type="number" required=""  style="width:400px;height:20px;" name="repno" ng-model="repno" maxlength="30"><br></br>
+ <label>Unique NO:</label><input type="number" required=""  style="width:400px;height:20px;" name="uno" ng-model="uno" maxlength="30"><br></br>
+ <label>StayVisaUpTo:</label><input type="number" required=""  style="width:400px;height:20px;" name="uto" ng-model="uto" maxlength="30"><br></br>
+ <label>RegularOrBacklog:</label><input type="text" required=""  style="width:400px;height:20px;" name="rob" ng-model="rob" maxlength="30"><br></br>
+ <label>Exam Date:</label><input type="text"   style="width:400px;height:20px;" name="ed" maxlength="30" value="-" optional><br></br>
+ <label>Result Date:</label><input type="text"   style="width:400px;height:20px;" name="rd" maxlength="30" value="-" optional><br></br>
+ 
+                 
+                 
+<script>
+    var app = angular.module('myApp', []);
+      app.controller('datCtrl', function($scope) {
+        $scope.today = new Date();
+       
+});
+</script>   
+</div>  
+<input type=submit value="Submit">   
+</form><p></p>
+<form method="post" action="./log_staff.py">
+   <input type="submit"  value="Back">
+</form>          	
+</body>
+</head>
+</html>
+
+
+
+
+
+

@@ -1,0 +1,36 @@
+<html>            
+<head>
+<link rel="stylesheet" href="./code.css"/>
+<ul>
+<li><a  class="active"  href="./log_staff.py">HOME</a></li>
+<li style="float:right"><a   href="./logout.py">LOGOUT</a></li>
+</ul> 
+<body >
+ 
+<div ng-app="myApp" ng-controller="datCtrl">
+<form value="form" action="staff_no_dues.py" method="post">
+<script src="./angular.min.js"></script>           
+
+ <h1> Details</h1>
+    <div>
+      <label>Ref No:</label>
+  <input type =number required=""  name='dossss' value=%s  maxlength="30"><p>
+    <input type=hidden name='rln' value=%s>
+     <b><label>Date:</label><input type=Date name='dd' value={{today|date:"d/M/yyyy"}}> </b>
+  </div>
+<script>
+    var app = angular.module('myApp', []);
+      app.controller('datCtrl', function($scope) {
+        $scope.today = new Date();
+});
+</script>    
+   <input type="submit"  value="Submit"> 
+</div> 
+</form>
+
+<form method="post" action="./log_staff.py">
+   <input type="submit"  value="Back">
+</form>              	
+</body>
+</head>
+</html>

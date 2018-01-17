@@ -1,0 +1,43 @@
+<!DOCTYPE html>            
+<html>            
+<head>
+
+<link rel="stylesheet" href="../code.css"/>
+<body >
+ 
+<div ng-app="myApp" ng-controller="datCtrl">
+<script src="./angular.min.js"></script>           
+
+<form method="post" action="">
+ <h1> Student Detail</h1>
+   <label>Ref No:</label>
+   <input type="number" required=""  style="width:400px;height:20px;" name="doc" ng-model="purp" maxlength="30"><br></br>
+   <label>Date:</label>
+   <input type="text" value={{today|date:"dd.MM.yyyy"}} style="width:400px;height:20px;" ><br></br>
+  
+   <label> Unique No:</label>
+   <input type=number required=""  style="width:400px;height:20px;"  name="doc" ng-model="purp" maxlength="30"><br></br>
+   <label> Stay Visa UpTo:</label>
+   <input type="text" required=""  style="width:400px;height:20px;" name="doc" ng-model="purp" maxlength="30"><br></br>
+   <label> Select Student Type:</label><br>
+	   <input type="radio" ng-model="name" value="regular"><label>Regular</label><br>
+   <input type="radio" ng-model="name" value="backlog"><label>Backlog</label><br></br> 
+   <input type="submit"  value="submit"> 
+<script>
+var app = angular.module('myApp', []);
+app.controller('datCtrl', function($scope) {
+    $scope.today = new Date();
+});
+</script>
+   </form>
+</div>               	
+</body>
+</head>
+</html>
+
+
+
+
+
+
+

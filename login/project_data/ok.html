@@ -1,0 +1,29 @@
+<!DOCTYPE html>            
+<html>            
+<head>
+
+<body >
+ <div ng-app="" ng-controller="appController">
+<script src="./angular.min.js"></script>           
+ <script>            
+
+var app = angular.module('', []);            
+    app.controller("appController", function ($scope,$http) { 
+	$scope.redirect = function(){
+  window.location = "/student.html";
+}
+});     
+     
+</script>
+<button ng-click="redirect()">Click</button>
+</form>
+</body>
+</head>
+</html>
+
+
+
+
+
+
+
